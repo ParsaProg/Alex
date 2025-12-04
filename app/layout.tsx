@@ -1,6 +1,7 @@
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import ClientLayout from "./ClientLayout";
+import Header from "@/src/components/Header/Header";
 
 export default function RootLayout({
   children,
@@ -9,9 +10,12 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={`en-font dark:bg-[#080808f7] bg-white`}>
+      <body className={` dark:bg-[#080808f7] bg-white`}>
         <ThemeProvider enableSystem defaultTheme="system" attribute="class">
-          <ClientLayout>{children}</ClientLayout>
+          <ClientLayout>
+            <Header />
+            {children}
+          </ClientLayout>
         </ThemeProvider>
       </body>
     </html>
