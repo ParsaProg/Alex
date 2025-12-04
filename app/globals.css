@@ -11,18 +11,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face{
-  src: "../public/fonts/iranSansX-bold.woff2";
+  src: url("../public/fonts/iranSansX-bold.woff2") format("woff2");
   font-family: "IranSans";
   font-weight: 800;
+  font-display: swap;
 }
 
 @font-face{
-  src: "../public/fonts/iranSansX-light.woff2";
+  src: url("../public/fonts/iranSansX-light.woff2") format("woff2");
   font-family: "IranSans";
   font-weight: 400;
+  font-display: swap;
 }
 
 @font-face{
-  src: "../public/fonts/Poppins-Regular.ttf";
+  src: url("../public/fonts/Poppins-Regular.ttf");
   font-family: "IranSans";
 }
