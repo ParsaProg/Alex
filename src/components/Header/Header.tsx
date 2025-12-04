@@ -27,12 +27,12 @@ export default function Header() {
 
   return (
     <div className="flex fixed top-0 w-full py-5 border-b dark:border-b-neutral-900 border-b-slate-300 ">
-      <div className="w-[80%] h-full mx-auto flex items-center justify-between">
-        <div className="flex items-start flex-col gap-y-2">
-          <h1 className="text-transparent bg-clip-text bg-linear-to-l font-bold dark:from-white from-black dark:to-blue-500 to-blue-600 text-2xl">
+      <div className="sm:w-[80%] w-[90%] h-full mx-auto flex items-center justify-between">
+        <div className="flex items-start flex-col">
+          <h1 className="sm:text-2xl text-transparent bg-clip-text bg-linear-to-l font-bold dark:from-white from-black dark:to-blue-500 to-blue-600 text-xl">
             {lang === "en" ? "Rahim Saedi's Book" : "کتاب رحیم ساعدی"}
           </h1>
-          <h5 className="dark:text-slate-300 font-thin text-slate-600">
+          <h5 className="sm:text-md text-sm dark:text-slate-300 font-thin text-slate-600">
             {lang === "en"
               ? "How to speak english fluently"
               : "چطور انگلیسی را روان، صحبت کنیم"}
