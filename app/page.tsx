@@ -6,18 +6,126 @@ import { Pause, Play, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
+// Create a separate component for the audio card to use hooks properly
+function AudioCard({ 
+  item, 
+  playingPage, 
+  isPlaying, 
+  onPlay, 
+  lang 
+}: { 
+  item: any; 
+  playingPage: number | null; 
+  isPlaying: boolean; 
+  onPlay: (page: number) => void; 
+  lang: string; 
+}) {
+  const [duration, setDuration] = useState("0:00");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (duration === "0:00" && !loading) {
+      loadDuration();
+    }
+  }, []);
+
+  const loadDuration = () => {
+    if (duration !== "0:00" || loading) return;
+
+    setLoading(true);
+    const audio = new Audio();
+    audio.preload = "metadata";
+    audio.src = item.audioPath;
+    audio.onloadedmetadata = () => {
+      const minutes = Math.floor(audio.duration / 60);
+      const seconds = Math.floor(audio.duration % 60);
+      setDuration(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+      setLoading(false);
+    };
+
+    audio.onerror = () => {
+      setLoading(false);
+      audio.src = "";
+    };
+  };
+
+  return (
+    <div
+      className="w-full rounded-xl bg-transparent border dark:border-neutral-800 border-neutral-300 p-5 flex flex-col items-start gap-y-2"
+      key={item.page}
+    >
+      <div className="flex items-center justify-between w-full">
+        <div className="dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-lg p-2 text-sm">
+          {lang === "en" ? "Page" : "صفحه"} {item.page}
+        </div>
+
+        <div
+          className={`flex items-center gap-x-2 ${
+            lang === "en" ? "pl-2 pr-1" : "pl-1 pr-2"
+          } py-1 rounded-lg border dark:border-neutral-800 border-neutral-300`}
+        >
+          <h1 className="text-sm">
+            {lang === "en" ? "Listen time" : "زمان موردنیاز"}
+          </h1>
+          <div className="flex items-center gap-2">
+            {loading ? (
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                <span className="text-xs">
+                  {lang === "en" ? "Loading" : "در حال بارگذاری"}...
+                </span>
+              </div>
+            ) : (
+              <span className="px-2 py-1 bg-gray-100 dark:bg-gray-950 dark:border-neutral-800 border-neutral-300 border rounded text-sm">
+                ⏱ {duration}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+      <h1>
+        {lang === "en"
+          ? "How to speak english Fluently"
+          : "چطور انگلیسی را روان صحبت کنیم"}{" "}
+        <strong className="font-bold">
+          {lang === "en" ? "Page" : "صفحه"} {item.page}
+        </strong>{" "}
+      </h1>
+      <div className="w-full flex items-center sm:flex-row flex-row justify-between">
+        <h1 className="font-bold dark:text-neutral-300 text-neutral-700">
+          {lang === "en"
+            ? "listen to the pronounciation"
+            : "به تلفظ صحیح گوش کن"}
+        </h1>
+        <motion.div
+          onClick={() => onPlay(item.page)}
+          whileTap={{ scale: 0.94 }}
+          className="flex items-center gap-x-2 dark:text-white text-black border dark:border-neutral-800 border-neutral-300 rounded-lg p-2 cursor-pointer"
+        >
+          {playingPage === item.page && isPlaying ? (
+            <Pause size={18} />
+          ) : (
+            <Play size={18} />
+          )}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [showError, setShowError] = useState(false);
-  const inputRef = useRef(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredItems, setFilteredItems] = useState(audioList);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Add these states OUTSIDE the map at the top of your component
-  const [playingItem, setPlayingItem] = useState<number | null>(null);
+  // Audio states - track by PAGE NUMBER, not array index
+  const [playingPage, setPlayingPage] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Create this function OUTSIDE the map - FIXED
-  const audioPlay = (index: number) => {
-    if (playingItem === index && isPlaying) {
+  const audioPlay = (page: number) => {
+    if (playingPage === page && isPlaying) {
       // Pause current audio
       if (audioRef.current) {
         audioRef.current.pause();
@@ -30,8 +138,13 @@ export default function Home() {
         audioRef.current.currentTime = 0;
       }
 
-      // Get the audio item
-      const audioItem = audioList[index];
+      // Find the audio item by page number in the original list
+      const audioItem = audioList.find(item => item.page === page);
+      
+      if (!audioItem) {
+        console.error("Audio item not found for page:", page);
+        return;
+      }
 
       // Create or reuse audio element
       if (!audioRef.current) {
@@ -44,24 +157,24 @@ export default function Home() {
       audioRef.current
         .play()
         .then(() => {
-          setPlayingItem(index);
+          setPlayingPage(page);
           setIsPlaying(true);
         })
         .catch((error: any) => {
           console.error("Error playing audio:", error);
-          setPlayingItem(null);
+          setPlayingPage(null);
           setIsPlaying(false);
         });
 
       // Handle when audio ends
       audioRef.current.onended = () => {
-        setPlayingItem(null);
+        setPlayingPage(null);
         setIsPlaying(false);
       };
 
       // Handle errors
       audioRef.current.onerror = () => {
-        setPlayingItem(null);
+        setPlayingPage(null);
         setIsPlaying(false);
       };
     }
@@ -78,13 +191,15 @@ export default function Home() {
     };
   }, []);
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const maxPages = 136;
 
     // Remove non-numeric characters
     const numericValue = value.replace(/[^0-9]/g, "");
-    e.target.value = numericValue;
+    
+    // Update the search value
+    setSearchValue(numericValue);
 
     if (numericValue && Number(numericValue) > maxPages) {
       // Show error
@@ -97,8 +212,28 @@ export default function Home() {
 
       // Reset to max value
       e.target.value = maxPages.toString();
+      setSearchValue(maxPages.toString());
     } else {
       setShowError(false);
+    }
+
+    // Filter audio list based on search
+    if (numericValue === "") {
+      setFilteredItems(audioList);
+    } else {
+      const filtered = audioList.filter(item => 
+        item.page.toString().includes(numericValue)
+      );
+      setFilteredItems(filtered);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue("");
+    setFilteredItems(audioList);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
     }
   };
 
@@ -156,16 +291,29 @@ export default function Home() {
             >
               8 {lang === "en" ? "to" : "تا"} 136
             </div>
+            
+            {/* Clear button when there's search value */}
+            {searchValue && (
+              <button
+                onClick={handleClearSearch}
+                className={`absolute top-[50%] translate-y-[-50%] text-sm ${
+                  lang === "en" ? "right-20" : "left-20"
+                } text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors`}
+              >
+                {lang === "fa" ? "پاک کردن" : "Clear"}
+              </button>
+            )}
+
             <input
               ref={inputRef}
-              onInput={handleInput}
+              onChange={handleInput}
               inputMode="numeric"
               type="number"
               max={136}
               placeholder={
                 lang === "fa"
-                  ? "صفحه مورد نظر را پیدا کنید"
-                  : "Find your page you want"
+                  ? "شماره صفحه را وارد کنید (۸-۱۳۶)"
+                  : "Enter page number (8-136)"
               }
               className={`w-full outline-none border-none py-3 px-10 bg-transparent placeholder:font-thin transition-colors duration-300 ${
                 showError
@@ -175,104 +323,65 @@ export default function Home() {
             />
           </div>
         </div>
-      </div>
-      <section className="mt-8 w-full md:grid-cols-2 xl:grid-cols-3 grid-cols-1 grid gap-5">
-        {audioList.map((item, _i) => {
-          const [duration, setDuration] = useState("0:00");
-          const [loading, setLoading] = useState(false);
 
-          useEffect(() => {
-            if (duration === "0:00" && !loading) {
-              loadDuration();
-            }
-          }, []);
-
-          const loadDuration = () => {
-            if (duration !== "0:00" || loading) return;
-
-            setLoading(true);
-            const audio = new Audio();
-            audio.preload = "metadata";
-            audio.src = item.audioPath;
-            audio.onloadedmetadata = () => {
-              const minutes = Math.floor(audio.duration / 60);
-              const seconds = Math.floor(audio.duration % 60);
-              setDuration(`${minutes}:${seconds.toString().padStart(2, "0")}`);
-              setLoading(false);
-            };
-
-            audio.onerror = () => {
-              setLoading(false);
-              audio.src = "";
-            };
-          };
-
-          return (
-            <div
-              className="w-full rounded-xl bg-transparent border dark:border-neutral-800 border-neutral-300 p-5 flex flex-col items-start gap-y-2"
-              key={_i}
-            >
-              {/* Your existing content */}
-              <div className="flex items-center justify-between w-full">
-                <div className="dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 rounded-lg p-2 text-sm">
-                  {lang === "en" ? "Page" : "صفحه"} {item.page}
-                </div>
-
-                <div
-                  className={`flex items-center gap-x-2 ${
-                    lang === "en" ? "pl-2 pr-1" : "pl-1 pr-2"
-                  } py-1 rounded-lg border dark:border-neutral-800 border-neutral-300`}
-                >
-                  <h1 className="text-sm">
-                    {lang === "en" ? "Listen time" : "زمان موردنیاز"}
-                  </h1>
-                  <div className="flex items-center gap-2">
-                    {loading ? (
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
-                        <span className="text-xs">
-                          {lang === "en" ? "Loading" : "در حال بارگذاری"}...
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="px-2 py-1 bg-gray-100 dark:bg-gray-950 dark:border-neutral-800 border-neutral-300 border rounded text-sm">
-                        ⏱ {duration}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <h1>
-                {lang === "en"
-                  ? "How to speak english Fluently"
-                  : "چطور انگلیسی را روان صحبت کنیم"}{" "}
-                <strong className="font-bold">
-                  {lang === "en" ? "Page" : "صفحه"} {item.page}
-                </strong>{" "}
-              </h1>
-              <div className="w-full flex items-center sm:flex-row flex-row justify-between">
-                <h1 className="font-bold dark:text-neutral-300 text-neutral-700">
-                  {lang === "en"
-                    ? "listen to the pronounciation"
-                    : "به تلفظ صحیح گوش کن"}
-                </h1>
-                <motion.div
-                  onClick={() => audioPlay(_i)}
-                  whileTap={{ scale: 0.94 }}
-                  className="flex items-center gap-x-2 dark:text-white text-black border dark:border-neutral-800 border-neutral-300 rounded-lg p-2 "
-                >
-                  {playingItem === _i && isPlaying ? (
-                    <Pause size={18} />
-                  ) : (
-                    <Play size={18} />
-                  )}
-                </motion.div>
-              </div>
+        {/* Search results info */}
+        {searchValue && (
+          <div className="mt-4 flex items-center justify-between">
+            <div className="text-sm text-neutral-600 dark:text-neutral-400">
+              {lang === "fa" ? (
+                <>
+                  <span className="font-semibold">{filteredItems.length}</span> نتیجه برای صفحه‌ی "
+                  <span className="font-semibold">{searchValue}</span>"
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold">{filteredItems.length}</span> results for page "
+                  <span className="font-semibold">{searchValue}</span>"
+                </>
+              )}
             </div>
-          );
-        })}
+            <button
+              onClick={handleClearSearch}
+              className="text-sm text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+            >
+              {lang === "fa" ? "نمایش همه صفحات" : "Show all pages"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      <section className="mt-8 w-full md:grid-cols-2 xl:grid-cols-3 grid-cols-1 grid gap-5">
+        {filteredItems.length === 0 ? (
+          <div className="col-span-full text-center py-12">
+            <div className="text-neutral-500 dark:text-neutral-400 mb-4">
+              {lang === "fa" ? "😞 هیچ صفحه‌ای یافت نشد" : "😞 No pages found"}
+            </div>
+            <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4">
+              {lang === "fa" 
+                ? `صفحه‌ای با شماره "${searchValue}" وجود ندارد. لطفاً شماره‌ای بین ۸ تا ۱۳۶ وارد کنید.`
+                : `No page with number "${searchValue}" exists. Please enter a number between 8 and 136.`
+              }
+            </p>
+            <button
+              onClick={handleClearSearch}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              {lang === "fa" ? "نمایش همه صفحات" : "Show all pages"}
+            </button>
+          </div>
+        ) : (
+          filteredItems.map((item) => (
+            <AudioCard
+              key={item.page}
+              item={item}
+              playingPage={playingPage}
+              isPlaying={isPlaying}
+              onPlay={audioPlay}
+              lang={lang}
+            />
+          ))
+        )}
       </section>
-      
     </div>
   );
 }
