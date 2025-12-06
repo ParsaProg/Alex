@@ -3,7 +3,19 @@ import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
+import { Metadata } from "next";
 
+export const MetaData: Metadata = {
+  icons: {
+    icon: "/favicon.ico",
+  },
+  title: "Rahim Saedi's Book",
+  description: "Rahim Saedi's book modern webapp",
+  openGraph: {
+    title: "Rahim Saedi's Book",
+    description: "Rahim Saedi's book modern webapp",
+  },
+};
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,7 +29,6 @@ export default function RootLayout({
             <Header />
             <div className="mt-[130px]"></div>
             {children} <div className="mt-[50px]"></div>
-
             <Footer />
           </ClientLayout>
         </ThemeProvider>
