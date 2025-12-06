@@ -26,10 +26,10 @@ export default function Header() {
   if (!mount) return null;
 
   return (
-    <div className="flex fixed top-0 w-full py-5 border-b dark:border-b-neutral-900 border-b-slate-300 ">
+    <div className="dark:bg-[#08080845] bg-[#ffffff45] z-9999 backdrop-blur-xl flex fixed top-0 w-full py-5 border-b dark:border-b-neutral-900 border-b-slate-300 ">
       <div className="sm:w-[80%] w-[90%] h-full mx-auto flex items-center justify-between">
         <div className="flex items-start flex-col">
-          <h1 className="sm:text-2xl text-transparent bg-clip-text bg-linear-to-l font-bold dark:from-white from-black dark:to-blue-500 to-blue-600 text-xl">
+          <h1 className="sm:text-2xl text-transparent bg-clip-text bg-linear-to-l font-bold dark:from-white from-black dark:to-blue-600 to-blue-600 text-xl">
             {lang === "en" ? "Rahim Saedi's Book" : "کتاب رحیم ساعدی"}
           </h1>
           <h5 className="sm:text-md text-sm dark:text-slate-300 font-thin text-slate-600">
