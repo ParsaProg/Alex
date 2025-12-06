@@ -4,6 +4,7 @@ import ClientLayout from "./ClientLayout";
 import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
 import type { Metadata, Viewport } from "next";
+import TopScrollButton from "@/src/components/ui/TopScrollButton";
 
 export const metadata: Metadata = {
   // Fixed typo here
@@ -46,6 +47,7 @@ export default function RootLayout({
             <div className="mt-[130px]"></div>
             {children} <div className="mt-[50px]"></div>
             <Footer />
+            <TopScrollButton />
           </ClientLayout>
         </ThemeProvider>
       </body>
