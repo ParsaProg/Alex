@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body className={` dark:bg-[#080808f7] bg-white mx-auto`}>
-        <ThemeProvider enableSystem defaultTheme="system" attribute="class">
+        <ThemeProvider defaultTheme="dark" attribute="class">
           <ClientLayout>
             <Header />
             <div className="mt-[130px]"></div>
