@@ -3,9 +3,10 @@ import "./globals.css";
 import ClientLayout from "./ClientLayout";
 import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
-import { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
-export const MetaData: Metadata = {
+export const metadata: Metadata = {
+  // Fixed typo here
   icons: {
     icon: "/favicon.ico",
   },
@@ -14,8 +15,19 @@ export const MetaData: Metadata = {
   openGraph: {
     title: "Rahim Saedi's Book",
     description: "Rahim Saedi's book modern webapp",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +36,11 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body className={` dark:bg-[#080808f7] bg-white mx-auto`}>
-        <ThemeProvider defaultTheme="dark" attribute="class">
+        <ThemeProvider
+          disableTransitionOnChange
+          defaultTheme="dark"
+          attribute="class"
+        >
           <ClientLayout>
             <Header />
             <div className="mt-[130px]"></div>
