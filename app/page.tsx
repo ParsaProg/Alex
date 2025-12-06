@@ -123,19 +123,20 @@ export default function Home() {
   const [playingPage, setPlayingPage] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const currentPageRef = useRef<number | null>(null); // Track which page is currently loaded
 
   const audioPlay = (page: number) => {
     if (playingPage === page && isPlaying) {
-      // Pause current audio
+      // Pause current audio - DON'T reset to 0!
       if (audioRef.current) {
         audioRef.current.pause();
         setIsPlaying(false);
       }
     } else {
-      // Stop current audio if playing
-      if (audioRef.current && isPlaying) {
+      // Stop current audio if playing a DIFFERENT page
+      if (audioRef.current && isPlaying && currentPageRef.current !== page) {
         audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+        audioRef.current.currentTime = 0; // Reset only when switching to different audio
       }
 
       // Find the audio item by page number in the original list
@@ -146,11 +147,31 @@ export default function Home() {
         return;
       }
 
+      // If clicking on the same page that was paused, just resume it
+      if (currentPageRef.current === page && audioRef.current && !isPlaying) {
+        audioRef.current.play()
+          .then(() => {
+            setPlayingPage(page);
+            setIsPlaying(true);
+          })
+          .catch((error: any) => {
+            console.error("Error resuming audio:", error);
+          });
+        return;
+      }
+
+      // Otherwise, load new audio
+      currentPageRef.current = page;
+      
       // Create or reuse audio element
       if (!audioRef.current) {
         audioRef.current = new Audio(audioItem.audioPath);
       } else {
-        audioRef.current.src = audioItem.audioPath;
+        // Only reset if it's a different audio
+        if (audioRef.current.src !== audioItem.audioPath) {
+          audioRef.current.src = audioItem.audioPath;
+          audioRef.current.currentTime = 0;
+        }
       }
 
       // Play the audio
@@ -164,18 +185,21 @@ export default function Home() {
           console.error("Error playing audio:", error);
           setPlayingPage(null);
           setIsPlaying(false);
+          currentPageRef.current = null;
         });
 
       // Handle when audio ends
       audioRef.current.onended = () => {
         setPlayingPage(null);
         setIsPlaying(false);
+        currentPageRef.current = null;
       };
 
       // Handle errors
       audioRef.current.onerror = () => {
         setPlayingPage(null);
         setIsPlaying(false);
+        currentPageRef.current = null;
       };
     }
   };
@@ -187,6 +211,7 @@ export default function Home() {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         audioRef.current = null;
+        currentPageRef.current = null;
       }
     };
   }, []);
