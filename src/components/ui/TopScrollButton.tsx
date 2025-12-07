@@ -36,9 +36,7 @@ export default function TopScrollButton() {
           }}
           key="scroll-to-top"
           whileTap={{ scale: 0.91 }}
-          className={`z-500 fixed bottom-8 ${
-            lang === "en" ? "sm:left-10 left-5" : "sm:right-10 right-5"
-          } bg-blue-600 rounded-full text-white p-3`}
+          className={`z-500 bg-blue-600 rounded-full text-white p-3`}
         >
           <ArrowUp size={20} />
         </motion.div>
