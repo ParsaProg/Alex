@@ -5,6 +5,7 @@ import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
 import type { Metadata, Viewport } from "next";
 import { LanguageProvider } from "@/src/context/languageContext";
+import HeroShadow from "@/src/components/ui/HeroShadow";
 
 export const metadata: Metadata = {
   // Fixed typo here
@@ -36,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={` dark:bg-[#080808f7] bg-white mx-auto`}>
+      <body className={` dark:bg-[#080808f7] bg-white mx-auto overflow-x-hidden`}>
         <LanguageProvider>
           <ThemeProvider
             disableTransitionOnChange
@@ -44,6 +45,7 @@ export default function RootLayout({
             attribute="class"
           >
             <ClientLayout>
+              <HeroShadow />
               <Header />
               <div className="mt-[130px]"></div>
               {children} <div className="mt-[50px]"></div>
