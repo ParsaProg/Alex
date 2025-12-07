@@ -4,7 +4,7 @@ import ClientLayout from "./ClientLayout";
 import Header from "@/src/components/Header/Header";
 import Footer from "@/src/components/Footer/Footer";
 import type { Metadata, Viewport } from "next";
-import TopScrollButton from "@/src/components/ui/TopScrollButton";
+import { LanguageProvider } from "@/src/context/languageContext";
 
 export const metadata: Metadata = {
   // Fixed typo here
@@ -37,19 +37,20 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body className={` dark:bg-[#080808f7] bg-white mx-auto`}>
-        <ThemeProvider
-          disableTransitionOnChange
-          defaultTheme="dark"
-          attribute="class"
-        >
-          <ClientLayout>
-            <Header />
-            <div className="mt-[130px]"></div>
-            {children} <div className="mt-[50px]"></div>
-            <Footer />
-            <TopScrollButton />
-          </ClientLayout>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider
+            disableTransitionOnChange
+            defaultTheme="dark"
+            attribute="class"
+          >
+            <ClientLayout>
+              <Header />
+              <div className="mt-[130px]"></div>
+              {children} <div className="mt-[50px]"></div>
+              <Footer />
+            </ClientLayout>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
