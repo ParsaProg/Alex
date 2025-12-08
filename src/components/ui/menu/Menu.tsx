@@ -33,9 +33,7 @@ export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
                 <Code2 size={15} />
               </div>
               <h3
-                className={`${
-                  lang === "en" ? "text-sm" : "text-md"
-                } font-bold`}
+                className="text-sm font-bold"
               >
                 {lang === "en" ? "About Developer" : "دربارۀ برنامه‌نویس"}
               </h3>
@@ -48,9 +46,7 @@ export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
                 <Stars size={15} />
               </div>
               <h3
-                className={`${
-                  lang === "en" ? "text-sm" : "text-md"
-                } font-bold`}
+                className="text-sm font-bold"
               >
                 {lang === "en" ? "Collector Information" : "گردآورندۀ کتاب"}
               </h3>
