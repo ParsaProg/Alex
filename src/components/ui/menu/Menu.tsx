@@ -58,9 +58,7 @@ export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
             <div className="flex items-center gap-x-2 dark:text-neutral-200 text-neutral-900">
               <Github size={15} />
               <h3
-                className={`${
-                  lang === "en" ? "text-sm" : "text-md"
-                }`}
+                className="text-sm"
               >
                 {lang === "en" ? "Source Code" : "سورس کد"}
               </h3>
@@ -71,9 +69,7 @@ export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
             <div className="flex items-center gap-x-2 dark:text-neutral-200 text-neutral-900">
               <Users2 size={15} />
               <h3
-                className={`${
-                  lang === "en" ? "text-sm" : "text-md"
-                }`}
+                className="text-sm"
               >
                 {lang === "en" ? "Contributors" : "مشارکت کنندان"}
               </h3>
@@ -84,9 +80,7 @@ export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
           <div className="w-full flex items-center justify-between rounded-md p-3 transition-all cursor-pointer hover:dark:bg-neutral-800 hover:dark:border-neutral-600 border border-transparent">
             <div className="flex items-center gap-x-2 dark:text-neutral-200 text-neutral-900">
               <BookOpenText size={15} />
-              <h3  className={`${
-                  lang === "en" ? "text-sm" : "text-md"
-                }`}>{lang === "en"? "Book Information": "اطلاعات کامل کتاب"}</h3>
+              <h3  className="text-sm">{lang === "en"? "Book Information": "اطلاعات کامل کتاب"}</h3>
             </div>
             <OpenIcon />
           </div>
