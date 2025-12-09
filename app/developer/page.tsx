@@ -1,6 +1,6 @@
 "use client";
 
-import { Accessibility, Github, Rocket, User, Zap } from "lucide-react";
+import {  Github, Rocket, User, Zap } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import ParsaShaabani1 from "@/public/images/parsa-shaabani-1.jpg";
