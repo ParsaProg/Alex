@@ -92,7 +92,7 @@ export default function DeveloperAbout() {
             className={`relative min-[1200px]:w-[50%] w-full  ${
               pictureIndex === 1 && "max-[1200px]:h-[120vw]"
             } ${
-              pictureIndex !== 1 && "max-[1200px]:h-[85vw]"
+              pictureIndex !== 1 && "max-[1200px]:h-[95vw]"
             } rounded-xl overflow-hidden transition-all duration-200`}
           >
             <AnimatePresence mode="wait">
@@ -142,7 +142,7 @@ export default function DeveloperAbout() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="absolute flex items-center gap-x-3 left-[50%] translate-x-[-50%] bottom-8">
+            <div className="absolute flex items-center gap-x-3 left-[50%] translate-x-[-50%] bottom-3">
               <ButtonSwitcherPictures
                 pictureIndex={pictureIndex}
                 index={0}
@@ -178,7 +178,7 @@ export const PictureContainer = ({ src }: { src: string }) => {
       className={`w-full ${
         src === ParsaShaabani2.src ? "h-[650px]" : "h-[500px]"
       } z-1 ${src === ParsaShaabani2.src && "max-[1200px]:h-[120vw]"} ${
-        src !== ParsaShaabani2.src && "max-[1200px]:h-[85vw]"
+        src !== ParsaShaabani2.src && "max-[1200px]:h-[95vw]"
       }`}
     />
   );
