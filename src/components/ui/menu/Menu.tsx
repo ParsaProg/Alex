@@ -6,6 +6,7 @@ import { BookOpenText, Code2, Github, Stars, Users2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/src/context/languageContext";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 interface MainMenuType {
   showMenu: boolean;
   setShowMenu: (value: boolean) => void;
@@ -13,10 +14,37 @@ interface MainMenuType {
 
 export default function MainMenu({ showMenu, setShowMenu }: MainMenuType) {
   const { lang } = useLanguage();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
+  useEffect(() => {
+    switch (showMenu) {
+      case true:
+        document.body.style.overflow = "hidden";
+        break;
+      case false:
+        document.body.style.overflow = "auto";
+        break;
+    }
+  }, [showMenu]);
   return (
     <AnimatePresence>
       {showMenu && (
         <motion.div
+          ref={menuRef}
           initial="hidden"
           animate="visible"
           exit="hidden"
