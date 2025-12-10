@@ -21,7 +21,7 @@ export default function CollectorInfo() {
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ delay: 1 }}
-            className="animate-pulse dark:bg-white bg-black rounded-md w-28 h-2"
+            className="animate-pulse dark:bg-white bg-black rounded-md w-28 h-1"
           ></motion.span>
           <motion.h1
             initial="hidden"
