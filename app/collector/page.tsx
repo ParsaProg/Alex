@@ -132,7 +132,7 @@ export default function CollectorInfo() {
             alt="Rahim-Saedi | رحیم ساعدی"
             width={800}
             height={800}
-            className={`max-[1100px]:w-[300px] w-[800px] ${isPictureLoad? "grayscale-0 blur-[0px]": "blur-[100px] grayscale-100"} transition-all duration-100`}
+            className={`max-[1100px]:w-[300px] w-[800px] ${isPictureLoad? "grayscale-0 blur-[0px]": "blur-[100px] grayscale-100"} transition-all duration-1000`}
           />
         </div>
       </div>
