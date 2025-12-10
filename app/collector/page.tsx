@@ -12,7 +12,7 @@ export default function CollectorInfo() {
   return (
     <div className="flex flex-col gap-y-10 sm:w-[80%] w-[90%] mx-auto mt-[150px] overflow-hidden">
       <div className="w-full flex gap-y-10 max-[1100px]:flex-col-reverse items-center gap-x-5">
-        <section className="flex flex-col items-start gap-y-5">
+        <section className="flex flex-col items-start gap-y-3">
           <motion.span
             initial="hidden"
             animate="visible"
@@ -31,7 +31,7 @@ export default function CollectorInfo() {
               visible: { opacity: 1, x: 0 },
             }}
             transition={{ delay: 0.2 }}
-            className="md:text-5xl font-bold text-2xl w-full bg-linear-to-b dark:from-slate-600 dark:to-white text-transparent bg-clip-text"
+            className="md:text-5xl font-bold text-2xl w-full bg-linear-to-b dark:from-blue-600 dark:to-white from-blue-400 from-10%% to-black text-transparent bg-clip-text"
           >
             How to speak english fluently <br /> I'm Rahim-Saedi
           </motion.h1>
@@ -58,7 +58,7 @@ export default function CollectorInfo() {
               visible: { opacity: 1, x: 0 },
             }}
             transition={{ delay: 1 }}
-            className="my-3 w-full h-px dark:bg-neutral-800 bg-neutral-300"
+            className="my-3 w-full h-px dark:bg-neutral-800 bg-neutral-200"
           />
           <section className="flex items-center min-[1100px]:gap-x-20 max-[1100px]:w-full gap-x-5">
             <div className="flex gap-x-3 items-center">
@@ -124,7 +124,7 @@ export default function CollectorInfo() {
             </div>
           </section>
         </section>
-        <div className="max-[1100px]:w-[300px] w-[800px] rounded-full bg-[#29323E] p-3 overflow-hidden">
+        <div className="max-[1100px]:w-[300px] w-[800px] rounded-full dark:bg-[#29323E] bg-slate-300 p-3 overflow-hidden">
           <Image
             onLoad={() => setIsPictureLoad(true)}
             draggable={false}
