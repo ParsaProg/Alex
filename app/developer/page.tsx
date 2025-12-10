@@ -76,7 +76,7 @@ export default function DeveloperAbout() {
         </h1>
         <div className="flex max-[1200px]:flex-col flex-row items-start gap-5 w-full min-[1200px]:mt-5">
           {lang === "en" ? (
-            <p className="sm:text-[16px] text-sm font-medium min-[1200px]:w-[50%]">
+            <p className="sm:text-[16px] text-sm font-medium min-[1200px]:w-[50%] leading-[35px]">
               🚀 Hi, I'm Parsa Shaban — a full-stack developer specializing in
               <span className="font-semibold dark:text-blue-100 text-blue-500">
                 {" "}
@@ -117,35 +117,19 @@ export default function DeveloperAbout() {
               {""}
               for end-to-end development.
               <br />
-              <br />
-              🌐 In my portfolio, you'll see innovation and high performance in
-              real-world projects.
-              <br />
               ✨ Committed to building seamless, fast, and responsive user
               experiences with technical precision.
               <br />
               🔧 From UI/UX design with Tailwind to server-side logic with
               Next.js & Python — I cover the full development lifecycle.
-              <br />
-              🎨 My mission is to create applications that are both beautiful
-              and technically scalable.
-              <br />
-              <br />
-              🚀 Goal: To develop impactful digital solutions that drive
-              business and user value.
-              <br />
               💼 Ready to collaborate on challenging projects — from startup
               MVPs to enterprise systems.
               <br />
               📈 Constantly learning and updating skills — from advanced
               TypeScript to modern backend architectures.
-              <br />
-              <br />
-              🌱 My mantra: "Clean code, smart architecture, flawless user
-              experience"
             </p>
           ) : (
-            <p className="sm:text-[16px] text-sm font-medium min-[1200px]:w-[50%]">
+            <p className="sm:text-[16px] text-sm font-medium min-[1200px]:w-[50%] leading-[35px]">
               🚀 سلام، من پارسا شعبانی هستم — یک توسعه‌دهنده فول‌استک که با تخصص
               در
               <span className="font-semibold dark:text-blue-100 text-blue-500 en-font"> Next.js</span>،
@@ -163,27 +147,14 @@ export default function DeveloperAbout() {
               <br />
               🌐 در نمونه‌کارهایم، نوآوری و عملکرد بهینه را در قالب پروژه‌های
               واقعی مشاهده خواهید کرد.
-              <br />
-              ✨ متعهد به ساخت تجربه‌های کاربری یکپارچه، سریع و واکنش‌گرا با
-              تمرکز بر جزئیات فنی.
-              <br />
               🔧 از طراحی UI/UX با Tailwind تا پیاده‌سازی منطق سمت سرور با
               Next.js و Python — چرخه کامل توسعه را پوشش می‌دهم.
-              <br />
-              <br />
-              🎨 ایجاد برنامه‌هایی که هم زیبا هستند و هم از نظر فنی مقیاس‌پذیر و
-              قابل اطمینان، مأموریت اصلی من است.
-              <br />
-              🚀 هدف: توسعه راه‌حل‌های دیجیتال تأثیرگذار که تجارت و کاربران را
-              پیش ببرند.
               <br />
               💼 آماده همکاری روی پروژه‌های چالش‌برانگیز — از MVP استارتاپی تا
               سیستم‌های سازمانی.
               <br />
               📈 همیشه در حال یادگیری و به‌روزرسانی دانش فنی — از TypeScript
               پیشرفته تا معماری‌های مدرن Backend.
-              <br />
-              <br />
               🌱 شعار من: «کد تمیز، معماری هوشمند، تجربه کاربری بی‌نقص»
             </p>
           )}
